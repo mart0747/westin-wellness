@@ -20,7 +20,7 @@ export default function HomeScreen() {
           />
           */} 
           <Image
-            source={require('../assets/images/westin banner.png')}
+            source={require('../assets/images/westin-banner.png')}
             style={styles.westinImage}>
           </Image>
         </View>
