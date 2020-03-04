@@ -23,6 +23,8 @@ export default function App(props) {
       try {
         SplashScreen.preventAutoHide();
 
+        //load our data from AWS here
+
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
 
