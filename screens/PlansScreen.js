@@ -4,18 +4,18 @@ import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-export default function LinksScreen() {
+export default function PlansScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <OptionButton
         icon="md-school"
-        label="Read the Expo documentation"
+        label="excercise plan"
         onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
       />
 
       <OptionButton
         icon="md-compass"
-        label="Read the React Navigation documentation"
+        label="nutrition plan"
         onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
       />
 
