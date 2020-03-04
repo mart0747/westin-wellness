@@ -2,63 +2,80 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
+import * as ImagePicker from 'expo-image-picker';
 
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
+
+  let [selectedImage, setSelectedImage] = React.useState(null);
+
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return; 
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    setSelectedImage({ localUri: pickerResult.uri});
+  }
+
+  let openShareDialogAsync = async () => {
+    if(!(await Sharing.isAvailableAsync())){
+      alert('uh oh, sharing not available on your platform');
+      return; 
+    }
+
+    Sharing.shareAsync(selectedImage.localUri);
+  }
+
+  if (selectedImage !== null) {
+    return (
+      <View style = {styles.container}>
+        
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <View style={styles.welcomeContainer}>
+            <Image 
+            source = {{uri: selectedImage.localUri }}
+            style = {styles.westinImage}>
+            </Image> 
+          </View>
+        
+        <TouchableOpacity
+          onPress = {openShareDialogAsync}
+          style = {styles.button}>
+          <Text style={styles.buttonText}>Share this photo</Text>
+        </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-          {/* <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-          */} 
           <Image
             source={require('../assets/images/westin-banner.png')}
             style={styles.westinImage}>
           </Image>
+
+          <TouchableOpacity 
+            onPress = {openImagePickerAsync} 
+            style = {styles.button}>
+            <Text style = {styles.buttonText}>Select your profile image</Text> 
+         </TouchableOpacity>
+     
         </View>
-
-        {/*
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-           <Text style={styles.getStartedText}>Open up the code for this screen:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Test test test. Change any of the text, save the file, and your app will automatically reload.
-          </Text>
-        </View>
-        */}
-        {/*
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-          </TouchableOpacity>
-        </View>
-        */}
-      </ScrollView>
-
-{/*}
-      <View style={styles.tabBarInfoContainer}>
-      
-        <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-      
-        <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
-        </View>
-      </View>
-      */}
+      </ScrollView> 
     </View>
   );
 }
@@ -113,7 +130,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 0,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -194,4 +211,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  button: {
+    backgroundColor: 'black',
+    padding: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#888',
+  },
+
 });
