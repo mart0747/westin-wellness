@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import PlansScreen from '../screens/PlansScreen';
+import AdminScreen from '../screens/AdminScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -27,7 +28,15 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Plans"
         component={PlansScreen}
         options={{
-          title: 'My Plans',
+          title: 'My Program',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Admin"
+        component={AdminScreen}
+        options={{
+          title: 'Administrator',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
@@ -43,5 +52,7 @@ function getHeaderTitle(route) {
       return 'Home Screen';
     case 'Plans':
       return 'My customized plans';
+    case 'Admin':
+      return 'Administrator stuff'
   }
 }
