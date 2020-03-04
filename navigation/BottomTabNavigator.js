@@ -19,7 +19,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Get Started',
+          title: 'My Profile',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
         }}
       />
@@ -27,7 +27,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Links"
         component={LinksScreen}
         options={{
-          title: 'Resources',
+          title: 'My Plans',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
@@ -42,6 +42,6 @@ function getHeaderTitle(route) {
     case 'Home':
       return 'Home Screen';
     case 'Links':
-      return 'Links to learn more';
+      return 'My customized plans';
   }
 }
